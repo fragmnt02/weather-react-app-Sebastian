@@ -1,0 +1,16 @@
+{
+    "name":"weather-react-app",
+    "alias":"weather-react-app.now.sh",
+    "version":2,
+    "builds": [
+        { "src": "package.json", "use": "@now/static-build" }
+    ],
+    "routes": [
+        {"src": "^/css/(.*)", "dest": "/css/$1"},
+        {"src": "^/img/(.*)", "dest": "/img/$1"},
+        {"src": "^/static/(.*)", "dest": "/static/$1"},
+        {"src": "^/favicon.ico", "dest": "/favicon.ico"},
+        {"src": "^/manifest.json", "dest": "/manifest.json"},
+        {"src": "^/(.*)", "dest": "/index.html"}
+      ]
+}

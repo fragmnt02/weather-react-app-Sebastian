@@ -8,7 +8,7 @@ import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 
 const client = new ApolloClient({
-  uri: "http://localhost:4000"
+  uri: process.env.NODE_ENV ==='production'?'https://weather-react-app-backend.now.sh/':'http://localhost:4000'
 });
 
 
