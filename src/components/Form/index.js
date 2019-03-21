@@ -5,7 +5,7 @@ import Send from '@material-ui/icons/Send';
 import GpsFixed from '@material-ui/icons/GpsFixed';
 import gql from "graphql-tag";
 import { withApollo } from 'react-apollo';
-const GET_CORDS = gql`
+const GET_COORDS = gql`
 query($query:String!){
     getCoords(query:$query){
       features{
@@ -31,13 +31,31 @@ class Form extends Component {
         if (event.key === 'Enter') this.handleSubmit();
     }
 
+    getGeo=()=>{
+        const { setLoading } = this.props;
+        setLoading(true,()=>{
+            try {
+                if (navigator.geolocation) navigator.geolocation.getCurrentPosition(this.handleCoords)
+            } catch (error) {
+                setLoading(false,()=>alert(error));
+            }
+        })
+    }
+
+    handleCoords=position=>{
+        const { setCoords } = this.props;
+        const lat=`${position.coords.latitude}`;
+        const long=`${position.coords.longitude}`;
+        setCoords( lat, long );
+    }
+
     handleSubmit = () => {
         const { query } = this.state;
         if (query !== '') {
-            const { client, setCords, setLoading } = this.props;
+            const { client, setCoords, setLoading } = this.props;
             setLoading(true,()=>{
                 client.query({
-                    query: GET_CORDS,
+                    query: GET_COORDS,
                     variables: {
                         query
                     }
@@ -45,7 +63,7 @@ class Form extends Component {
                     .then(res => {
                         const lat = res.data.getCoords.features[0].geometry.coordinates[1]
                         const long = res.data.getCoords.features[0].geometry.coordinates[0]
-                        setCords( lat, long );
+                        setCoords( lat, long );
                     })
                     .catch(error => setLoading(false,()=>alert(error.message)))
             })
@@ -67,15 +85,18 @@ class Form extends Component {
         const propsPaper = {
             onKeyUp: this.hanndleEnter
         }
+        const propsGeo={
+            onClick:this.getGeo
+        }
 
         return (
             <React.Fragment>
-                <StyledPaper {...propsPaper}>
-                    <IconButton>
+                <StyledPaper {...propsPaper} >
+                    <IconButton {...propsGeo} >
                         <GpsFixed />
                     </IconButton>
                     <StyledInput {...propsInput} />
-                    <IconButton {...propsButton}>
+                    <IconButton {...propsButton} >
                         <Send />
                     </IconButton>
                 </StyledPaper>

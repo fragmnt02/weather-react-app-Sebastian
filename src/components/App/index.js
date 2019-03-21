@@ -50,7 +50,7 @@ class App extends Component{
     }
   }
 
-  setCords=(lat,long)=>this.setState({lat,long},this.getWeather)
+  setCoords=(lat,long)=>this.setState({lat,long},this.getWeather)
 
   setLoading=(loading,callback)=>this.setState({loading},callback)
 
@@ -74,7 +74,7 @@ class App extends Component{
 
   render(){
     const propsForm={
-      setCords:this.setCords,
+      setCoords:this.setCoords,
       setLoading:this.setLoading
     }
     return (
