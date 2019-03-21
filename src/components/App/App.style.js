@@ -8,5 +8,13 @@ export const Container = styled.div`
     display:flex;
     justify-content:center;
     align-items:center;
-    background-color:red;
+    flex-direction:column;
 `;
+
+export const ContainerLoading = styled.div`
+    margin-top:10px;
+`
+
+export const Title = styled.h1`
+    color:white;
+`
