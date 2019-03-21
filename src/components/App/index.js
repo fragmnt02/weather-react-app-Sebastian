@@ -66,6 +66,7 @@ class App extends Component{
   })
       .then(res => {
           console.log(res.data)
+          this.setState({loading:false})
       })
       .catch(error => alert(error.message))
 
